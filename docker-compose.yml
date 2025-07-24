@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: docker/php-apache.Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - ./uploads:/var/www/html/uploads
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: almroot
+      MYSQL_DATABASE: alm
+      MYSQL_USER: almuser
+      MYSQL_PASSWORD: almpass
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
